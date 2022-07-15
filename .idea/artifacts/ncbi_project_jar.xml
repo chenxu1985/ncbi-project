@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ncbi-project:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ncbi_project_jar</output-path>
+    <root id="archive" name="ncbi-project.jar">
+      <element id="module-output" name="ncbi-project" />
+    </root>
+  </artifact>
+</component>

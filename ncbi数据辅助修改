@@ -1,0 +1,76 @@
+prj_grants pro_grants prj_external_link prj_crossdb_ref  添加 prj_accession submitter 添加 prj_accession sample_accession sra_accession
+project 添加 second_accession 修改title字段长度为2000
+
+author_list volume journal_title pageto修改长度
+
+organization author_list external_link_url relevance
+导入 country
+导入 prj_sample_scope
+1	Monoisolate	0	
+2	Multiisolate	0	
+3	Multispecies	0	
+4	Environment	0	
+5	Synthetic	0	
+6	Single cell	0	
+7	Other	0	
+
+
+导入prj_data_type
+1	Whole genome sequencing	0	
+2	Clone ends	0	
+3	Epigenomics	0	
+4	Exome	0	
+5	Map	0	
+6	Metagenome	0	
+7	Phenotype or Genotype	0	
+8	Random survey	0	
+9	Targeted Locus (Loci)	0	
+10	Transcriptome or Gene expression	0	
+11	Variation	0	
+12	Transcriptome or Gene expression	0	
+13	RefSeq Genome	0	
+14	proteomic	0	
+15	RefSeq Genome sequencing and assembly	0	
+16	RefSeq Genome sequencing	0	
+17	Proteome	0	
+18	RefSeq raw sequence reads	0	
+19	RefSeq other	0	
+20	RefSeq variation	0	
+21	RefSeq Targeted Locus (Loci)	0	
+22	RefSeq assembly	0	
+23	RefSeq transcriptome	0	
+24	RefSeq targeted loci	0	
+25	RefSeq Phenotype or Genotype	0	
+26	RefSeq map	0	
+27	RefSeq metagenomic assembly	0	
+28	Genome sequencing and assembly	0	
+29	Raw sequence reads	0	
+30	Genome sequencing 	0	
+31	Assembly	0	
+32	Metagenomic assembly	0	
+33	Targeted loci cultured	0	
+34	Targeted loci environmental	0	
+35	Other	0	
+	
+
+
+insert into `user` ( `updateTimes`, `postal_code`, `title`, `user_id`, `is_locked`, `create_time`, `street`, `fax`, `active_time`, `middle_name`, `city`, `last_name`, `organization`, `delete_time`, `state`, `is_active`, `country_id`, `department`, `email`, `is_roleAllocated`, `research_area`, `phone`, `modify_time`, `cas_user_id`, `organization_standard`, `lab`, `password`, `first_name`, `is_deleted`) values ( '0', '100101', '', '2930', '0', '2020-09-14 11:20:44', 'No.1 Beichen West Road, Chaoyang District', null, '2020-09-14 11:20:44', '', 'Beijing', 'GSA', ' China National Center for Bioinformation / Beijing Institute of Genomics, Chinese Academy of Sciences', null, null, '1', '45', 'National Genomics Data Center', 'gsa-submit@big.ac.cn', null, '', null, null, '61cb3fac-f024-42f6-9211-a91dcea10555', 'China National Center for Bioinformation / Beijing Institute of Genomics, Chinese Academy of Sciences', '', null, 'GSA', '0');
+
+ncbi数据辅助修改
+pro_grants 
+update pro_grants po,project p set po.prj_id = p.prj_id where po.prj_accession=p.second_accession;
+update pro_grants po,prj_grants pj set po.grants_id = pj.grants_id where po.prj_accession = pj.prj_accession;
+
+prj_crossdb_ref
+update prj_crossdb_ref pc,project p set pc.prj_id=p.prj_id where pc.prj_accession=p.second_accession;
+
+
+//Project data_type_id
+update project p,prj_data_type pd set p.data_type_id = pd.data_type_id where p.otherDb=1 and p.data_type_id =0 and p.second_accession = pd.prj_accession
+
+
+//project sample_scope_id
+update project p,prj_sample_scope ps set p.sample_scope_id=ps.sample_scope_id where p.otherDb=1 and p.sample_scope_id=0 and p.second_accession = ps.prj_accession
+
+Submitter
+update project p,submitter sub set p.submitter_id = sub.submitter_id where sub.prj_accession = p.second_accession
